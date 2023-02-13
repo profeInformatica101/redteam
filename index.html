@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado</title>
+    <script>
+        let index = 0;
+        //crear listado de personajes y mostrar imagenes con DELLE2
+        let personajes = [  { "imagen": "image/gato.jpeg",    "nombre": "Gato",    "velocidad": "10",    "resistencia": "3"  },  {    "imagen": "image/perrus.jpeg",    "nombre": "Perro",    "velocidad": "25",    "resistencia": "2"  },  {    "imagen": "image/toro.jpeg",    "nombre": "Toro",    "velocidad": "30",    "resistencia": "5"  },  {    "imagen": "image/monkey.jpeg",    "nombre": "Mono",    "velocidad": "20",    "resistencia": "4"  }];
+        //información de atributos con CHART.JS
+    </script>
+</head>
+<body>
+    <h1>Red Team</h1>
+    <div id="personaje">
+        <img id="imagen" alt="">
+        <table>
+            <tr><td>Nombre:</td><td><span id="nombre"></span></td></tr>
+            <tr><td>Velocidad:</td><td><span id="velocidad"></span></td></tr>
+            <tr><td>Resistencia:</td><td><span id="resistencia"></span></td></tr>
+        </table>
+      </div>
+      <input type="button" value="atras" onclick="atras()">
+    <input type="button" value="siguiente" onclick="siguiente()">
+   
+    <script>
+        mostrar();
+        function siguiente(){
+            index = index +  1;
+            if(index > personajes.length){
+                index = 0;
+            }
+
+            mostrar();
+        }
+        function atras(){
+            index = index -1;
+            if(index<0){
+                index = personajes.length-1;
+            }
+            mostrar();
+        }
+
+        function mostrar(){
+            document.getElementById("nombre").innerHTML = personajes[index].nombre;
+            document.getElementById("velocidad").innerHTML = personajes[index].velocidad;
+            document.getElementById("resistencia").innerHTML = personajes[index].resistencia;
+
+            var img = document.getElementById("imagen");
+            img.setAttribute("src",  personajes[index].imagen);
+
+        }
+
+    </script>    
+</body>
+</html>
