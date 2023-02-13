@@ -1,58 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Listado</title>
     <script>
-        let index = 0;
-        //crear listado de personajes y mostrar imagenes con DELLE2
-        let personajes = [  { "imagen": "image/gato.jpeg",    "nombre": "Gato",    "velocidad": "10",    "resistencia": "3"  },  {    "imagen": "image/perrus.jpeg",    "nombre": "Perro",    "velocidad": "25",    "resistencia": "2"  },  {    "imagen": "image/toro.jpeg",    "nombre": "Toro",    "velocidad": "30",    "resistencia": "5"  },  {    "imagen": "image/monkey.jpeg",    "nombre": "Mono",    "velocidad": "20",    "resistencia": "4"  }];
-        //información de atributos con CHART.JS
+      let index = 0;
+      //crear listado de personajes y mostrar imagenes con DELLE2
+      let personajes = [
+        {
+          imagen: "image/gato.jpeg",
+          nombre: "Gato",
+          velocidad: "10",
+          resistencia: "3",
+        },
+        {
+          imagen: "image/perrus.jpeg",
+          nombre: "Perro",
+          velocidad: "25",
+          resistencia: "2",
+        },
+        {
+          imagen: "image/toro.jpeg",
+          nombre: "Toro",
+          velocidad: "30",
+          resistencia: "5",
+        },
+        {
+          imagen: "image/monkey.jpeg",
+          nombre: "Mono",
+          velocidad: "20",
+          resistencia: "4",
+        },
+      ];
+      //información de atributos con CHART.JS
     </script>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Red Team</h1>
-    <div id="personaje">
-        <img id="imagen" alt="">
-        <table>
-            <tr><td>Nombre:</td><td><span id="nombre"></span></td></tr>
-            <tr><td>Velocidad:</td><td><span id="velocidad"></span></td></tr>
-            <tr><td>Resistencia:</td><td><span id="resistencia"></span></td></tr>
-        </table>
+    <div id="contenedor">
+        <canvas id="myChart" height="50%" height="50%"></canvas>
       </div>
-      <input type="button" value="atras" onclick="atras()">
-    <input type="button" value="siguiente" onclick="siguiente()">
-   
+  
+    <div id="personaje">
+      <img id="imagen" alt="" />
+      <table>
+        <tr>
+          <td>Nombre:</td>
+          <td><span id="nombre"></span></td>
+        </tr>
+        <tr>
+          <td>Velocidad:</td>
+          <td><span id="velocidad"></span></td>
+        </tr>
+        <tr>
+          <td>Resistencia:</td>
+          <td><span id="resistencia"></span></td>
+        </tr>
+      </table>
+    </div>
+    <input type="button" value="atras" onclick="atras()" />
+    <input type="button" value="siguiente" onclick="siguiente()" />
+
+
     <script>
+         //Mapea de una lista de objetos a una lista con los nombres
+         const nombres = personajes.map((personaje) => personaje.nombre);
+        //Mapea de una lista de objetos a una lista con las velocidades
+        const datos_velocidad = personajes.map((personaje) => personaje.velocidad );
+         //Mapea de una lista de objetos a una lista con las resistencia
+         const datos_resistencia = personajes.map((personaje) => personaje.resistencia );
+       
+
+      chartJS();
+      mostrar();
+
+
+        /***
+        ####################
+        #    FUNCIONES    #
+        ####################
+
+
+      /** Función que incrementa el index de la lista de objetos */
+      function siguiente() {
+        index = index + 1;
+        if (index > personajes.length) {
+          index = 0;
+        }
+
         mostrar();
-        function siguiente(){
-            index = index +  1;
-            if(index > personajes.length){
-                index = 0;
-            }
-
-            mostrar();
+      }
+      /** Función que decrementa el index de la lista de objetos */
+      function atras() {
+        index = index - 1;
+        if (index < 0) {
+          index = personajes.length - 1;
         }
-        function atras(){
-            index = index -1;
-            if(index<0){
-                index = personajes.length-1;
-            }
-            mostrar();
-        }
+        mostrar();
+      }
+      /** muesta información de  la lista usando el index actual*/
+      function mostrar() {
+        document.getElementById("nombre").innerHTML = personajes[index].nombre;
+        document.getElementById("velocidad").innerHTML =
+          personajes[index].velocidad;
+        document.getElementById("resistencia").innerHTML =
+          personajes[index].resistencia;
 
-        function mostrar(){
-            document.getElementById("nombre").innerHTML = personajes[index].nombre;
-            document.getElementById("velocidad").innerHTML = personajes[index].velocidad;
-            document.getElementById("resistencia").innerHTML = personajes[index].resistencia;
+        var img = document.getElementById("imagen");
+        img.setAttribute("src", personajes[index].imagen);
+      }
 
-            var img = document.getElementById("imagen");
-            img.setAttribute("src",  personajes[index].imagen);
+      /** muestra chart con los datos de la lista */
+      function chartJS() {
+        const titulo = "Velocidad";
 
-        }
+        const ctx = document.getElementById("myChart");
 
-    </script>    
-</body>
+        new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: nombres,
+            datasets: [
+              {
+                label: "# de nombres ",
+                data: datos_velocidad,
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+            plugins: {
+              title: {
+                display: true,
+                text: titulo,
+              },
+            },
+          },
+        });
+      }
+
+  
+
+    </script>
+  </body>
 </html>
